@@ -1,10 +1,329 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>B&P Bank</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>B&P Bank — Banque numérique</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    header {
+      background: white;
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: bold;
+      color: #123b70;
+    }
+
+    .logo span {
+      color: #1b73e8;
+    }
+
+    .login {
+      background: #123b70;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .hero {
+      padding: 90px 6%;
+      background: linear-gradient(135deg, #eaf2ff, white);
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dceaff;
+      color: #123b70;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 52px;
+      color: #123b70;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      color: #1b73e8;
+    }
+
+    .hero p {
+      color: #526174;
+      font-size: 19px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #123b70;
+      color: white;
+      text-decoration: none;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .services {
+      padding: 70px 6%;
+      background: white;
+      text-align: center;
+    }
+
+    .services h2 {
+      color: #123b70;
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .intro {
+      color: #657287;
+      margin-bottom: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .card {
+      background: #f7f9fc;
+      border: 1px solid #e4e9f0;
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: left;
+    }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      color: #123b70;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #657287;
+      line-height: 1.5;
+    }
+
+    .security {
+      padding: 70px 6%;
+      background: #123b70;
+      color: white;
+      text-align: center;
+    }
+
+    .security h2 {
+      font-size: 34px;
+      margin-bottom: 15px;
+    }
+
+    .security p {
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.7;
+      color: #dce8f8;
+    }
+
+    footer {
+      background: #0d294d;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    footer p {
+      margin-top: 8px;
+      color: #b8c7da;
+      font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      header {
+        padding: 16px 5%;
+      }
+
+      .hero {
+        padding: 65px 5%;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .services {
+        padding: 55px 5%;
+      }
+
+      .services h2 {
+        font-size: 29px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>B&P Bank fonctionne !</h1>
-  <p>GitHub Pages fonctionne correctement.</p>
+
+  <header>
+    <div class="logo">B<span>&</span>P Bank</div>
+
+    <a href="#" class="login">
+      Se connecter
+    </a>
+  </header>
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        🏦 Banque numérique nouvelle génération
+      </div>
+
+      <h1>
+        Votre argent.<br>
+        <span>Votre liberté.</span>
+      </h1>
+
+      <p>
+        Découvrez B&P Bank, une expérience bancaire numérique
+        moderne, simple et pensée pour vous accompagner
+        au quotidien.
+      </p>
+
+      <a href="#services" class="button">
+        Découvrir B&P Bank
+      </a>
+
+    </div>
+
+  </section>
+
+  <section class="services" id="services">
+
+    <h2>Nos services</h2>
+
+    <p class="intro">
+      Une expérience bancaire pensée pour vos besoins quotidiens.
+    </p>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">💳</div>
+        <h3>Cartes bancaires</h3>
+        <p>
+          Gérez vos cartes et retrouvez leurs informations
+          depuis votre espace client.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">💰</div>
+        <h3>Comptes</h3>
+        <p>
+          Consultez vos comptes et votre historique
+          d'opérations.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">💸</div>
+        <h3>Virements</h3>
+        <p>
+          Une interface pour préparer et suivre vos
+          opérations de virement.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">📱</div>
+        <h3>Banque mobile</h3>
+        <p>
+          Une expérience adaptée à votre smartphone
+          et à vos usages quotidiens.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="security">
+
+    <h2>La sécurité au cœur de B&P Bank</h2>
+
+    <p>
+      B&P Bank est actuellement un prototype de démonstration.
+      Cette version présente l'interface et l'expérience utilisateur
+      d'un service bancaire numérique.
+    </p>
+
+  </section>
+
+  <footer>
+
+    <strong>B&P Bank</strong>
+
+    <p>
+      © 2026 B&P Bank — Prototype de démonstration
+    </p>
+
+  </footer>
+
 </body>
-</html>
+  </html>
