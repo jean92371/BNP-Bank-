@@ -1,329 +1,1685 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>B&P Bank — Banque numérique</title>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      box-sizing: border-box;
     }
 
     body {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
       background: #f5f7fb;
       color: #172033;
-    }
-
-    header {
-      background: white;
-      padding: 18px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-
-    .logo {
-      font-size: 27px;
-      font-weight: bold;
-      color: #123b70;
-    }
-
-    .logo span {
-      color: #1b73e8;
-    }
-
-    .login {
-      background: #123b70;
-      color: white;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .hero {
-      padding: 90px 6%;
-      background: linear-gradient(135deg, #eaf2ff, white);
-    }
-
-    .hero-content {
-      max-width: 700px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #dceaff;
-      color: #123b70;
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 52px;
-      color: #123b70;
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
-
-    h1 span {
-      color: #1b73e8;
-    }
-
-    .hero p {
-      color: #526174;
-      font-size: 19px;
-      line-height: 1.7;
-      margin-bottom: 30px;
-    }
-
-    .button {
-      display: inline-block;
-      background: #123b70;
-      color: white;
-      text-decoration: none;
-      padding: 15px 25px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .services {
-      padding: 70px 6%;
-      background: white;
-      text-align: center;
-    }
-
-    .services h2 {
-      color: #123b70;
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
-
-    .intro {
-      color: #657287;
-      margin-bottom: 40px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .card {
-      background: #f7f9fc;
-      border: 1px solid #e4e9f0;
-      border-radius: 14px;
-      padding: 28px 20px;
-      text-align: left;
-    }
-
-    .icon {
-      font-size: 32px;
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      color: #123b70;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #657287;
       line-height: 1.5;
     }
 
-    .security {
-      padding: 70px 6%;
-      background: #123b70;
-      color: white;
-      text-align: center;
+    a {
+      text-decoration: none;
     }
 
-    .security h2 {
-      font-size: 34px;
-      margin-bottom: 15px;
+    button,
+    input {
+      font-family: inherit;
     }
 
-    .security p {
-      max-width: 700px;
-      margin: auto;
+    button {
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5eaf1;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+
+      min-height: 74px;
+
+      padding: 0 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 25px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      color: #172033;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: #1268d8;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      color: #536176;
+      font-size: 14px;
+      font-weight: 600;
+      transition: .2s;
+    }
+
+    nav a:hover {
+      color: #1268d8;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+
+      padding: 11px 18px;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      transition: .2s;
+    }
+
+    .btn-primary {
+      background: #1268d8;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: #0d58b9;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: #172033;
+      border: 1px solid #d7dee8;
+    }
+
+    .btn-outline:hover {
+      border-color: #1268d8;
+      color: #1268d8;
+    }
+
+
+    /* =========================
+       CONTENU PUBLIC
+    ========================== */
+
+    #publicContent {
+      display: block;
+    }
+
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+
+      padding: 85px 24px 75px;
+
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+
+      align-items: center;
+
+      gap: 65px;
+    }
+
+    .hero-content h1 {
+      font-size: 52px;
+      line-height: 1.08;
+
+      letter-spacing: -1.5px;
+
+      margin-bottom: 22px;
+    }
+
+    .hero-content h1 span {
+      color: #1268d8;
+    }
+
+    .hero-content p {
+      max-width: 620px;
+
+      color: #68758a;
+
+      font-size: 18px;
       line-height: 1.7;
-      color: #dce8f8;
+
+      margin-bottom: 30px;
     }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+
+    /* =========================
+       HERO CARD
+    ========================== */
+
+    .hero-card {
+      background: #1268d8;
+
+      color: #ffffff;
+
+      border-radius: 20px;
+
+      padding: 32px;
+
+      min-height: 300px;
+
+      box-shadow:
+        0 20px 50px
+        rgba(18, 104, 216, .18);
+    }
+
+    .hero-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 55px;
+    }
+
+    .hero-card-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .hero-card-label {
+      font-size: 12px;
+      opacity: .75;
+    }
+
+    .hero-card h2 {
+      font-size: 31px;
+      margin-bottom: 12px;
+    }
+
+    .hero-card-number {
+      font-size: 14px;
+      letter-spacing: 2px;
+      opacity: .85;
+    }
+
+
+    /* =========================
+       SECTIONS
+    ========================== */
+
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+
+      padding: 70px 24px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #68758a;
+      font-size: 15px;
+    }
+
+
+    /* =========================
+       SERVICES
+    ========================== */
+
+    .services {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 20px;
+    }
+
+    .service-card {
+      background: #ffffff;
+
+      border:
+        1px solid #e4e9f0;
+
+      border-radius: 14px;
+
+      padding: 28px;
+
+      transition: .2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 10px 30px
+        rgba(20, 35, 60, .07);
+    }
+
+    .service-icon {
+      width: 45px;
+      height: 45px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eaf3ff;
+      color: #1268d8;
+
+      border-radius: 10px;
+
+      font-size: 20px;
+      font-weight: 800;
+
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      color: #68758a;
+
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================== */
 
     footer {
-      background: #0d294d;
-      color: white;
-      text-align: center;
-      padding: 30px;
+      background: #ffffff;
+
+      border-top:
+        1px solid #e4e9f0;
     }
 
-    footer p {
-      margin-top: 8px;
-      color: #b8c7da;
-      font-size: 14px;
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+
+      padding: 35px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 30px;
     }
 
-    @media (max-width: 800px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      h1 {
-        font-size: 42px;
-      }
+    .footer-logo {
+      font-size: 21px;
+      font-weight: 800;
     }
 
-    @media (max-width: 550px) {
-      header {
-        padding: 16px 5%;
+    .footer-inner p {
+      color: #68758a;
+      font-size: 13px;
+      margin-top: 7px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 850px) {
+
+      nav {
+        display: none;
       }
 
       .hero {
-        padding: 65px 5%;
-      }
-
-      h1 {
-        font-size: 36px;
-      }
-
-      .hero p {
-        font-size: 17px;
-      }
-
-      .cards {
         grid-template-columns: 1fr;
+        padding-top: 55px;
+      }
+
+      .hero-content h1 {
+        font-size: 40px;
       }
 
       .services {
-        padding: 55px 5%;
+        grid-template-columns: 1fr;
       }
 
-      .services h2 {
-        font-size: 29px;
-      }
     }
+
+
+    @media (max-width: 500px) {
+
+      .header-inner {
+        padding: 15px;
+      }
+
+      .header-actions
+      .btn-outline {
+        display: none;
+      }
+
+      .hero,
+      .section {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+
   </style>
+
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">B<span>&</span>P Bank</div>
 
-    <a href="#" class="login">
-      Se connecter
-    </a>
-  </header>
+  <!-- =========================
+       SITE PRINCIPAL
+  ========================== -->
 
-  <section class="hero">
+  <div id="publicContent">
 
-    <div class="hero-content">
 
-      <div class="badge">
-        🏦 Banque numérique nouvelle génération
+    <!-- HEADER -->
+
+    <header>
+
+      <div class="header-inner">
+
+
+        <div class="logo">
+          B<span>&</span>P Bank
+        </div>
+
+
+        <nav>
+
+          <a href="#accueil">
+            Accueil
+          </a>
+
+          <a href="#services">
+            Services
+          </a>
+
+          <a href="#securite">
+            Sécurité
+          </a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+          <button
+            class="btn btn-outline"
+            id="openAuth"
+          >
+            Connexion
+          </button>
+
+
+          <button
+            class="btn btn-primary"
+            id="openSignup"
+          >
+            Créer un compte
+          </button>
+
+        </div>
+
       </div>
 
-      <h1>
-        Votre argent.<br>
-        <span>Votre liberté.</span>
-      </h1>
+    </header>
 
-      <p>
-        Découvrez B&P Bank, une expérience bancaire numérique
-        moderne, simple et pensée pour vous accompagner
-        au quotidien.
+
+    <!-- ACCUEIL -->
+
+    <main id="accueil">
+
+
+      <section class="hero">
+
+
+        <div class="hero-content">
+
+          <h1>
+            Votre banque numérique,
+            <span>simple et sécurisée.</span>
+          </h1>
+
+
+          <p>
+            Gérez votre espace personnel,
+            consultez vos informations et
+            accédez à vos services depuis
+            une expérience bancaire numérique.
+          </p>
+
+
+          <div class="hero-buttons">
+
+
+            <button
+              class="btn btn-primary"
+              id="heroLogin"
+            >
+              Se connecter
+            </button>
+
+
+            <button
+              class="btn btn-outline"
+              id="heroSignup"
+            >
+              Créer un compte
+            </button>
+
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+
+          <div class="hero-card-top">
+
+            <div class="hero-card-title">
+              B<span>&</span>P Bank
+            </div>
+
+            <div class="hero-card-label">
+              Espace personnel
+            </div>
+
+          </div>
+
+
+          <h2>
+            Espace bancaire
+          </h2>
+
+
+          <div class="hero-card-number">
+            Accès sécurisé à votre compte
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+      <!-- SERVICES -->
+
+      <section
+        class="section"
+        id="services"
+      >
+
+
+        <div class="section-title">
+
+          <h2>
+            Nos services
+          </h2>
+
+          <p>
+            Retrouvez vos services depuis
+            votre espace B&P Bank.
+          </p>
+
+        </div>
+
+
+        <div class="services">
+
+
+          <div class="service-card">
+
+            <div class="service-icon">
+              €
+            </div>
+
+            <h3>
+              Gestion du compte
+            </h3>
+
+            <p>
+              Accédez aux informations liées
+              à votre compte depuis votre
+              espace personnel.
+            </p>
+
+          </div>
+
+
+          <div class="service-card">
+
+            <div class="service-icon">
+              ↗
+            </div>
+
+            <h3>
+              Opérations
+            </h3>
+
+            <p>
+              Retrouvez les opérations associées
+              à votre espace lorsqu'elles sont
+              disponibles.
+            </p>
+
+          </div>
+
+
+          <div class="service-card">
+
+            <div class="service-icon">
+              ✓
+            </div>
+
+            <h3>
+              Sécurité
+            </h3>
+
+            <p>
+              Votre accès personnel bénéficie
+              de l'authentification sécurisée
+              de votre compte.
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- SECURITE -->
+
+      <section
+        class="section"
+        id="securite"
+      >
+
+        <div class="section-title">
+
+          <h2>
+            Sécurité
+          </h2>
+
+          <p>
+            L'accès à votre espace personnel
+            nécessite votre authentification.
+          </p>
+
+        </div>
+
+      </section>
+
+
+    </main>
+
+  </div>
+    <!-- TABLEAU DE BORD -->
+
+  <section id="dashboard">
+
+    <div class="dashboard-header">
+
+      <div>
+
+        <h1>
+          Bonjour,
+          <span id="userName">
+            Client
+          </span>
+        </h1>
+
+        <p>
+          Bienvenue dans votre espace personnel.
+        </p>
+
+      </div>
+
+      <button
+        class="btn btn-outline"
+        id="logoutBtn"
+      >
+        Se déconnecter
+      </button>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+
+      <div class="dashboard-card balance-card">
+
+        <div class="balance-label">
+          Solde disponible
+        </div>
+
+        <div
+          class="balance"
+          id="balance"
+        >
+          0,00 €
+        </div>
+
+        <div
+          class="account-number"
+          id="accountNumber"
+        >
+          Aucun compte bancaire associé
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-card">
+
+        <h3>
+          Votre compte
+        </h3>
+
+        <p
+          style="
+            color:#6c7a90;
+            font-size:14px;
+          "
+        >
+          Type de compte
+        </p>
+
+        <strong id="accountType">
+          —
+        </strong>
+
+        <br><br>
+
+        <p
+          style="
+            color:#6c7a90;
+            font-size:14px;
+          "
+        >
+          Devise
+        </p>
+
+        <strong id="currency">
+          EUR
+        </strong>
+
+        <br><br>
+
+        <p
+          style="
+            color:#6c7a90;
+            font-size:14px;
+          "
+        >
+          Statut
+        </p>
+
+        <strong id="accountStatus">
+          —
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="dashboard-card"
+      style="margin-top:20px;"
+    >
+
+      <h3>
+        Dernières opérations
+      </h3>
+
+      <div id="transactions">
+
+        <p
+          style="
+            color:#6c7a90;
+            font-size:14px;
+          "
+        >
+          Aucune opération à afficher.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AUTHENTIFICATION -->
+
+  <div
+    class="modal"
+    id="authModal"
+  >
+
+    <div class="auth-box">
+
+      <button
+        class="close"
+        id="closeAuth"
+      >
+        ×
+      </button>
+
+
+      <div
+        class="logo"
+        style="margin-bottom:20px;"
+      >
+        B<span>&</span>P Bank
+      </div>
+
+
+      <h2 id="authTitle">
+        Bienvenue
+      </h2>
+
+
+      <p
+        class="auth-subtitle"
+        id="authSubtitle"
+      >
+        Connectez-vous à votre espace personnel.
       </p>
 
-      <a href="#services" class="button">
-        Découvrir B&P Bank
-      </a>
+
+      <div class="auth-tabs">
+
+        <button
+          class="auth-tab active"
+          id="loginTab"
+        >
+          Connexion
+        </button>
+
+
+        <button
+          class="auth-tab"
+          id="signupTab"
+        >
+          Créer un compte
+        </button>
+
+      </div>
+
+
+      <form id="authForm">
+
+
+        <div
+          class="form-group"
+          id="nameGroup"
+          style="display:none;"
+        >
+
+          <label for="fullName">
+            Nom complet
+          </label>
+
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Votre nom complet"
+            autocomplete="name"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="email">
+            Adresse e-mail
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="nom@exemple.com"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="password">
+            Mot de passe
+          </label>
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Votre mot de passe"
+            autocomplete="current-password"
+            required
+          >
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="auth-submit"
+          id="authSubmit"
+        >
+          Se connecter
+        </button>
+
+      </form>
+
+
+      <div
+        class="auth-message"
+        id="authMessage"
+      ></div>
 
     </div>
 
-  </section>
+  </div>
 
-  <section class="services" id="services">
 
-    <h2>Nos services</h2>
-
-    <p class="intro">
-      Une expérience bancaire pensée pour vos besoins quotidiens.
-    </p>
-
-    <div class="cards">
-
-      <div class="card">
-        <div class="icon">💳</div>
-        <h3>Cartes bancaires</h3>
-        <p>
-          Gérez vos cartes et retrouvez leurs informations
-          depuis votre espace client.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="icon">💰</div>
-        <h3>Comptes</h3>
-        <p>
-          Consultez vos comptes et votre historique
-          d'opérations.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="icon">💸</div>
-        <h3>Virements</h3>
-        <p>
-          Une interface pour préparer et suivre vos
-          opérations de virement.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="icon">📱</div>
-        <h3>Banque mobile</h3>
-        <p>
-          Une expérience adaptée à votre smartphone
-          et à vos usages quotidiens.
-        </p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="security">
-
-    <h2>La sécurité au cœur de B&P Bank</h2>
-
-    <p>
-      B&P Bank est actuellement un prototype de démonstration.
-      Cette version présente l'interface et l'expérience utilisateur
-      d'un service bancaire numérique.
-    </p>
-
-  </section>
+  <!-- FOOTER -->
 
   <footer>
 
-    <strong>B&P Bank</strong>
+    <div class="footer-inner">
 
-    <p>
-      © 2026 B&P Bank — Prototype de démonstration
-    </p>
+
+      <div>
+
+        <div class="footer-logo">
+
+          B<span style="color:#1268d8;">
+            &
+          </span>P Bank
+
+        </div>
+
+        <p>
+          Votre espace bancaire numérique.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <p>
+          © 2026 B&P Bank
+        </p>
+
+      </div>
+
+
+    </div>
 
   </footer>
+
+
+  <!-- SUPABASE + APPLICATION -->
+
+  <script>
+
+    /*
+      CONNEXION SUPABASE
+    */
+
+    const SUPABASE_URL =
+      "https://hspmlvyrfhxyxacsmqbl.supabase.co";
+
+
+    const SUPABASE_KEY =
+      "sb_publishable_iRJh6DsBlljAcQlOKFSB2A_Og96hPqg";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /*
+      ELEMENTS
+    */
+
+    const authModal =
+      document.getElementById("authModal");
+
+    const openAuth =
+      document.getElementById("openAuth");
+
+    const openSignup =
+      document.getElementById("openSignup");
+
+    const heroLogin =
+      document.getElementById("heroLogin");
+
+    const heroSignup =
+      document.getElementById("heroSignup");
+
+    const closeAuth =
+      document.getElementById("closeAuth");
+
+    const loginTab =
+      document.getElementById("loginTab");
+
+    const signupTab =
+      document.getElementById("signupTab");
+
+    const authForm =
+      document.getElementById("authForm");
+
+    const authTitle =
+      document.getElementById("authTitle");
+
+    const authSubtitle =
+      document.getElementById("authSubtitle");
+
+    const authSubmit =
+      document.getElementById("authSubmit");
+
+    const authMessage =
+      document.getElementById("authMessage");
+
+    const nameGroup =
+      document.getElementById("nameGroup");
+
+    const fullName =
+      document.getElementById("fullName");
+
+    const email =
+      document.getElementById("email");
+
+    const password =
+      document.getElementById("password");
+
+    const publicContent =
+      document.getElementById("publicContent");
+
+    const dashboard =
+      document.getElementById("dashboard");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+    const userName =
+      document.getElementById("userName");
+
+    const balance =
+      document.getElementById("balance");
+
+    const accountNumber =
+      document.getElementById("accountNumber");
+
+    const accountType =
+      document.getElementById("accountType");
+
+    const currency =
+      document.getElementById("currency");
+
+    const accountStatus =
+      document.getElementById("accountStatus");
+
+    const transactions =
+      document.getElementById("transactions");
+
+
+    /*
+      MODE
+    */
+
+    let authMode = "login";
+
+
+    /*
+      OUVRIR AUTHENTIFICATION
+    */
+
+    function openAuthModal() {
+
+      authModal.classList.add("active");
+
+      authMessage.textContent = "";
+
+    }
+
+
+    /*
+      FERMER AUTHENTIFICATION
+    */
+
+    function closeAuthModal() {
+
+      authModal.classList.remove("active");
+
+      authMessage.textContent = "";
+
+    }
+
+
+    openAuth.addEventListener(
+      "click",
+      function() {
+
+        loginTab.click();
+
+        openAuthModal();
+
+      }
+    );
+
+
+    heroLogin.addEventListener(
+      "click",
+      function() {
+
+        loginTab.click();
+
+        openAuthModal();
+
+      }
+    );
+
+
+    openSignup.addEventListener(
+      "click",
+      function() {
+
+        signupTab.click();
+
+        openAuthModal();
+
+      }
+    );
+
+
+    heroSignup.addEventListener(
+      "click",
+      function() {
+
+        signupTab.click();
+
+        openAuthModal();
+
+      }
+    );
+
+
+    closeAuth.addEventListener(
+      "click",
+      closeAuthModal
+    );
+
+
+    authModal.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target === authModal
+        ) {
+
+          closeAuthModal();
+
+        }
+
+      }
+    );
+
+
+    /*
+      CONNEXION
+    */
+
+    loginTab.addEventListener(
+      "click",
+      function() {
+
+        authMode = "login";
+
+        loginTab.classList.add("active");
+
+        signupTab.classList.remove("active");
+
+        nameGroup.style.display =
+          "none";
+
+        authTitle.textContent =
+          "Bienvenue";
+
+        authSubtitle.textContent =
+          "Connectez-vous à votre espace personnel.";
+
+        authSubmit.textContent =
+          "Se connecter";
+
+        password.setAttribute(
+          "autocomplete",
+          "current-password"
+        );
+
+        authMessage.textContent = "";
+
+      }
+    );
+
+
+    /*
+      CREATION DE COMPTE
+    */
+
+    signupTab.addEventListener(
+      "click",
+      function() {
+
+        authMode = "signup";
+
+        signupTab.classList.add("active");
+
+        loginTab.classList.remove("active");
+
+        nameGroup.style.display =
+          "block";
+
+        authTitle.textContent =
+          "Créer votre espace";
+
+        authSubtitle.textContent =
+          "Créez votre accès personnel.";
+
+        authSubmit.textContent =
+          "Créer mon compte";
+
+        password.setAttribute(
+          "autocomplete",
+          "new-password"
+        );
+
+        authMessage.textContent = "";
+
+      }
+    );
+
+
+    /*
+      MESSAGE
+    */
+
+    function showMessage(
+      message,
+      success = false
+    ) {
+
+      authMessage.textContent =
+        message;
+
+      authMessage.style.color =
+        success
+          ? "#16845b"
+          : "#c0392b";
+
+    }
+
+
+    /*
+      INSCRIPTION
+    */
+
+    async function signUpUser() {
+
+      const name =
+        fullName.value.trim();
+
+      const userEmail =
+        email.value.trim();
+
+      const userPassword =
+        password.value;
+
+
+      if (!name) {
+
+        showMessage(
+          "Veuillez renseigner votre nom complet."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        userPassword.length < 6
+      ) {
+
+        showMessage(
+          "Le mot de passe doit contenir au moins 6 caractères."
+        );
+
+        return;
+
+      }
+
+
+      authSubmit.disabled =
+        true;
+
+      authSubmit.textContent =
+        "Création en cours...";
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.signUp({
+
+          email: userEmail,
+
+          password: userPassword,
+
+          options: {
+
+            data: {
+
+              full_name: name
+
+            }
+
+          }
+
+        });
+
+
+      authSubmit.disabled =
+        false;
+
+      authSubmit.textContent =
+        "Créer mon compte";
+
+
+      if (error) {
+
+        showMessage(
+          error.message
+        );
+
+        return;
+
+      }
+
+
+      if (data.user) {
+
+        showMessage(
+          "Votre compte a été créé. Vérifiez votre adresse e-mail si nécessaire.",
+          true
+        );
+
+      }
+
+    }
+
+
+    /*
+      CONNEXION UTILISATEUR
+    */
+
+    async function loginUser() {
+
+      const userEmail =
+        email.value.trim();
+
+      const userPassword =
+        password.value;
+
+
+      authSubmit.disabled =
+        true;
+
+      authSubmit.textContent =
+        "Connexion...";
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .auth
+          .signInWithPassword({
+
+            email: userEmail,
+
+            password: userPassword
+
+          });
+
+
+      authSubmit.disabled =
+        false;
+
+      authSubmit.textContent =
+        "Se connecter";
+
+
+      if (error) {
+
+        showMessage(
+          "Connexion impossible : " +
+          error.message
+        );
+
+        return;
+
+      }
+
+
+      closeAuthModal();
+
+      await showDashboard(
+        data.user
+      );
+
+    }
+
+
+    /*
+      FORMULAIRE
+    */
+
+    authForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        if (
+          authMode === "signup"
+        ) {
+
+          await signUpUser();
+
+        } else {
+
+          await loginUser();
+
+        }
+
+      }
+    );
+
+
+    /*
+      ESPACE CLIENT
+    */
+
+    async function showDashboard(
+      user
+    ) {
+
+      if (!user) {
+        return;
+      }
+
+
+      publicContent.style.display =
+        "none";
+
+      dashboard.style.display =
+        "block";
+
+
+      const metadata =
+        user.user_metadata || {};
+
+
+      userName.textContent =
+        metadata.full_name ||
+        user.email ||
+        "Client";
+
+
+      /*
+        PROFIL SUPABASE
+      */
+
+      const {
+        data: profile,
+        error
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .maybeSingle();
+
+
+      if (
+        !error &&
+        profile
+      ) {
+
+        userName.textContent =
+          profile.full_name ||
+          metadata.full_name ||
+          user.email ||
+          "Client";
+
+      }
+
+
+      /*
+        INFORMATIONS DU COMPTE
+      */
+
+      balance.textContent =
+        "0,00 €";
+
+
+      accountNumber.textContent =
+        "Aucun compte bancaire associé";
+
+
+      accountType.textContent =
+        "—";
+
+
+      currency.textContent =
+        "EUR";
+
+
+      accountStatus.textContent =
+        "—";
+
+
+      transactions.innerHTML = `
+
+        <p
+          style="
+            color:#6c7a90;
+            font-size:14px;
+          "
+        >
+          Aucune opération à afficher.
+        </p>
+
+      `;
+
+    }
+
+
+    /*
+      DECONNEXION
+    */
+
+    logoutBtn.addEventListener(
+      "click",
+      async function() {
+
+        await supabaseClient
+          .auth
+          .signOut();
+
+
+        dashboard.style.display =
+          "none";
+
+
+        publicContent.style.display =
+          "block";
+
+      }
+    );
+
+
+    /*
+      VERIFICATION SESSION
+    */
+
+    async function checkSession() {
+
+      const {
+        data
+      } =
+        await supabaseClient
+          .auth
+          .getSession();
+
+
+      if (
+        data &&
+        data.session &&
+        data.session.user
+      ) {
+
+        await showDashboard(
+          data.session.user
+        );
+
+      }
+
+    }
+
+
+    checkSession();
+
+
+    /*
+      CHANGEMENT DE SESSION
+    */
+
+    supabaseClient
+      .auth
+      .onAuthStateChange(
+        async function(
+          event,
+          session
+        ) {
+
+          if (
+            session &&
+            session.user &&
+            event === "SIGNED_IN"
+          ) {
+
+            await showDashboard(
+              session.user
+            );
+
+          }
+
+        }
+      );
+
+  </script>
 
 </body>
   </html>
