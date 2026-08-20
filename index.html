@@ -1226,14 +1226,17 @@
   </section>
 
 </main>
-  <section id="clientSpace">
+<section id="clientSpace">
 
   <div class="dashboard">
 
     <div class="dashboard-header">
+
       <div>
         <h2>Mon espace</h2>
-        <p id="welcomeText">Bienvenue dans votre espace client.</p>
+        <p id="welcomeText">
+          Bienvenue dans votre espace client.
+        </p>
       </div>
 
       <button
@@ -1241,23 +1244,38 @@
         onclick="logoutUser()">
         Se déconnecter
       </button>
+
     </div>
+
 
     <div class="dashboard-grid">
 
+      <!-- COMPTE -->
       <div class="dashboard-card">
-        <h3>Compte principal</h3>
 
-        <div class="balance-large" id="clientBalance">
+        <h3>Mon compte</h3>
+
+        <div
+          class="balance-large"
+          id="clientBalance">
           0,00 €
         </div>
 
-        <div class="account-number">
-          Compte B&P Bank
+        <div
+          class="account-number"
+          id="clientAccountNumber">
+          Aucun compte associé
         </div>
+
+        <div
+          class="account-number"
+          id="clientAccountStatus">
+        </div>
+
       </div>
 
 
+      <!-- PROFIL -->
       <div class="dashboard-card">
 
         <h3>Mes informations</h3>
@@ -1290,14 +1308,17 @@
       </div>
 
 
+      <!-- CARTE -->
       <div class="dashboard-card">
 
-        <h3>Dernières opérations</h3>
+        <h3>Ma carte</h3>
 
-        <div id="operationsList" class="operations">
+        <div
+          id="cardInformation"
+          class="operations">
 
           <div class="empty-operation">
-            Aucune opération disponible pour le moment.
+            Aucune carte associée à ce compte.
           </div>
 
         </div>
@@ -1305,6 +1326,25 @@
       </div>
 
 
+      <!-- TRANSACTIONS -->
+      <div class="dashboard-card">
+
+        <h3>Dernières opérations</h3>
+
+        <div
+          id="operationsList"
+          class="operations">
+
+          <div class="empty-operation">
+            Aucune opération disponible.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SERVICES -->
       <div class="dashboard-card">
 
         <h3>Services</h3>
@@ -1314,21 +1354,21 @@
           <div class="operation">
             <div>
               <strong>Compte</strong>
-              <small>Gestion du compte</small>
+              <small>Gestion de votre compte</small>
             </div>
           </div>
 
           <div class="operation">
             <div>
               <strong>Carte</strong>
-              <small>Services liés à la carte</small>
+              <small>Gestion de votre carte</small>
             </div>
           </div>
 
           <div class="operation">
             <div>
               <strong>Épargne</strong>
-              <small>Objectifs d'épargne</small>
+              <small>Gestion de votre épargne</small>
             </div>
           </div>
 
@@ -1356,8 +1396,9 @@
         </div>
 
         <p class="footer-description">
-          Une expérience bancaire numérique conçue pour offrir
-          une gestion claire et simple de vos services.
+          Une expérience bancaire numérique conçue
+          pour offrir une gestion claire et simple
+          de vos services.
         </p>
 
       </div>
@@ -1379,11 +1420,15 @@
 
         <h4>Client</h4>
 
-        <a href="#" onclick="openAuth('login'); return false;">
+        <a
+          href="#"
+          onclick="openAuth('login'); return false;">
           Se connecter
         </a>
 
-        <a href="#" onclick="openAuth('signup'); return false;">
+        <a
+          href="#"
+          onclick="openAuth('signup'); return false;">
           Devenir client
         </a>
 
@@ -1420,7 +1465,13 @@
 </footer>
 
 
-<div class="modal" id="authModal">
+<!-- ================================
+     AUTHENTIFICATION
+     ================================ -->
+
+<div
+  class="modal"
+  id="authModal">
 
   <div class="modal-box">
 
@@ -1434,8 +1485,13 @@
 
     <div class="modal-logo">
 
-      <span class="brand-mark">B&P</span>
-      <span>B&P Bank</span>
+      <span class="brand-mark">
+        B&P
+      </span>
+
+      <span>
+        B&P Bank
+      </span>
 
     </div>
 
@@ -1445,7 +1501,9 @@
     </h2>
 
 
-    <p class="modal-description" id="authDescription">
+    <p
+      class="modal-description"
+      id="authDescription">
       Accédez à votre espace client.
     </p>
 
@@ -1540,7 +1598,9 @@
         type="submit"
         class="btn btn-primary auth-submit"
         id="authSubmit">
+
         Se connecter
+
       </button>
 
 
@@ -1558,535 +1618,929 @@
 
 <script>
 
-  /* =========================================
-     CONFIGURATION SUPABASE
-     ========================================= */
+/* ========================================
+   SUPABASE
+   ======================================== */
 
-  const SUPABASE_URL =
-    "https://hspmlvyrfhxyxacsmqbl.supabase.co";
+const SUPABASE_URL =
+  "https://hspmlvyrfhxyxacsmqbl.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_iRJh6DsBlljAcQlOKFSB2A_Og96hPqg";
-
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_iRJh6DsBlljAcQlOKFSB2A_Og96hPqg";
 
 
-  let currentAuthMode = "login";
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
-  /* =========================================
-     OUVERTURE / FERMETURE AUTHENTIFICATION
-     ========================================= */
-
-  function openAuth(mode = "login") {
-
-    document
-      .getElementById("authModal")
-      .classList.add("active");
-
-    switchAuth(mode);
-  }
+let currentAuthMode = "login";
 
 
-  function closeAuth() {
+/* ========================================
+   AUTH MODAL
+   ======================================== */
 
-    document
-      .getElementById("authModal")
-      .classList.remove("active");
-
-    showMessage("");
-  }
-
-
-  function switchAuth(mode) {
-
-    currentAuthMode = mode;
-
-    const loginTab =
-      document.getElementById("loginTab");
-
-    const signupTab =
-      document.getElementById("signupTab");
-
-    const nameGroup =
-      document.getElementById("nameGroup");
-
-    const phoneGroup =
-      document.getElementById("phoneGroup");
-
-    const title =
-      document.getElementById("authTitle");
-
-    const description =
-      document.getElementById("authDescription");
-
-    const submit =
-      document.getElementById("authSubmit");
-
-
-    const isSignup =
-      mode === "signup";
-
-
-    loginTab.classList.toggle(
-      "active",
-      !isSignup
-    );
-
-    signupTab.classList.toggle(
-      "active",
-      isSignup
-    );
-
-
-    nameGroup.style.display =
-      isSignup ? "block" : "none";
-
-    phoneGroup.style.display =
-      isSignup ? "block" : "none";
-
-
-    title.textContent =
-      isSignup
-        ? "Créer votre accès"
-        : "Se connecter";
-
-
-    description.textContent =
-      isSignup
-        ? "Créez votre accès personnel B&P Bank."
-        : "Accédez à votre espace client.";
-
-
-    submit.textContent =
-      isSignup
-        ? "Créer mon accès"
-        : "Se connecter";
-
-
-    showMessage("");
-  }
-
-
-  /* =========================================
-     MESSAGES
-     ========================================= */
-
-  function showMessage(message) {
-
-    const box =
-      document.getElementById("authMessage");
-
-
-    if (!message) {
-
-      box.style.display = "none";
-      box.textContent = "";
-
-      return;
-    }
-
-
-    box.textContent = message;
-    box.style.display = "block";
-  }
-
-
-  /* =========================================
-     FORMULAIRE AUTHENTIFICATION
-     ========================================= */
+function openAuth(mode = "login") {
 
   document
-    .getElementById("authForm")
-    .addEventListener(
-      "submit",
-      async function(event) {
+    .getElementById("authModal")
+    .classList.add("active");
 
-        event.preventDefault();
-
-
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
+  switchAuth(mode);
+}
 
 
-        const password =
-          document
-            .getElementById("password")
-            .value;
+function closeAuth() {
+
+  document
+    .getElementById("authModal")
+    .classList.remove("active");
+
+  showMessage("");
+
+}
 
 
-        const fullName =
-          document
-            .getElementById("fullName")
-            .value
-            .trim();
+/* ========================================
+   CONNEXION / INSCRIPTION
+   ======================================== */
+
+function switchAuth(mode) {
+
+  currentAuthMode = mode;
+
+  const loginTab =
+    document.getElementById("loginTab");
+
+  const signupTab =
+    document.getElementById("signupTab");
+
+  const nameGroup =
+    document.getElementById("nameGroup");
+
+  const phoneGroup =
+    document.getElementById("phoneGroup");
+
+  const title =
+    document.getElementById("authTitle");
+
+  const description =
+    document.getElementById("authDescription");
+
+  const submit =
+    document.getElementById("authSubmit");
 
 
-        const phone =
-          document
-            .getElementById("phone")
-            .value
-            .trim();
+  const signup =
+    mode === "signup";
 
 
-        const submit =
-          document.getElementById("authSubmit");
+  loginTab.classList.toggle(
+    "active",
+    !signup
+  );
+
+  signupTab.classList.toggle(
+    "active",
+    signup
+  );
 
 
-        submit.disabled = true;
+  nameGroup.style.display =
+    signup ? "block" : "none";
 
-        showMessage("Traitement en cours...");
-
-
-        try {
-
-          if (
-            currentAuthMode === "signup"
-          ) {
-
-            if (!fullName) {
-
-              throw new Error(
-                "Veuillez renseigner votre nom complet."
-              );
-
-            }
+  phoneGroup.style.display =
+    signup ? "block" : "none";
 
 
-            const {
-              data,
-              error
-            } =
-              await supabaseClient.auth.signUp({
-                email,
-                password
-              });
+  title.textContent =
+    signup
+      ? "Créer votre accès"
+      : "Se connecter";
 
 
-            if (error) {
-              throw error;
-            }
+  description.textContent =
+    signup
+      ? "Créez votre accès personnel B&P Bank."
+      : "Accédez à votre espace client.";
 
 
-            if (!data.user) {
-
-              throw new Error(
-                "La création du compte n'a pas pu être finalisée."
-              );
-
-            }
+  submit.textContent =
+    signup
+      ? "Créer mon accès"
+      : "Se connecter";
 
 
-            const {
-              error: profileError
-            } =
-              await supabaseClient
-                .from("profiles")
-                .insert({
-                  id: data.user.id,
-                  full_name: fullName,
-                  phone: phone || null
-                });
+  showMessage("");
+
+}
 
 
-            if (profileError) {
+function showMessage(message) {
 
-              console.error(
-                profileError
-              );
-
-              throw new Error(
-                "Le profil n'a pas pu être enregistré."
-              );
-
-            }
+  const box =
+    document.getElementById("authMessage");
 
 
-            showMessage(
-              "Compte créé avec succès."
-            );
+  if (!message) {
+
+    box.style.display = "none";
+    box.textContent = "";
+
+    return;
+
+  }
 
 
-            setTimeout(
-              closeAuth,
-              2200
-            );
+  box.textContent = message;
+  box.style.display = "block";
+
+}
 
 
-          } else {
+/* ========================================
+   FORMULAIRE AUTH
+   ======================================== */
 
-            const {
-              error
-            } =
-              await supabaseClient.auth
-                .signInWithPassword({
-                  email,
-                  password
-                });
+document
+  .getElementById("authForm")
+  .addEventListener(
+    "submit",
+    async function(event) {
 
-
-            if (error) {
-              throw error;
-            }
+      event.preventDefault();
 
 
-            showMessage(
-              "Connexion réussie."
-            );
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
 
 
-            setTimeout(
-              async function() {
+      const password =
+        document
+          .getElementById("password")
+          .value;
 
-                closeAuth();
 
-                await loadClientSpace();
+      const fullName =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
 
-              },
-              700
+
+      const phone =
+        document
+          .getElementById("phone")
+          .value
+          .trim();
+
+
+      const submit =
+        document
+          .getElementById("authSubmit");
+
+
+      submit.disabled = true;
+
+      showMessage(
+        "Traitement en cours..."
+      );
+
+
+      try {
+
+        /* ==========================
+           INSCRIPTION
+           ========================== */
+
+        if (
+          currentAuthMode === "signup"
+        ) {
+
+          if (!fullName) {
+
+            throw new Error(
+              "Veuillez renseigner votre nom complet."
             );
 
           }
 
 
-        } catch (error) {
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signUp({
+              email: email,
+              password: password
+            });
 
-          console.error(error);
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (!data.user) {
+
+            throw new Error(
+              "La création du compte n'a pas pu être finalisée."
+            );
+
+          }
+
+
+          /*
+           * Création du profil.
+           */
+
+          const {
+            error: profileError
+          } =
+            await supabaseClient
+              .from("profiles")
+              .insert({
+                id: data.user.id,
+                full_name: fullName,
+                phone: phone || null
+              });
+
+
+          if (profileError) {
+
+            console.error(
+              profileError
+            );
+
+            throw new Error(
+              "Le profil n'a pas pu être enregistré."
+            );
+
+          }
+
 
           showMessage(
-            error.message ||
-            "Une erreur est survenue."
+            "Compte créé avec succès."
           );
 
 
-        } finally {
+          setTimeout(
+            function() {
+              closeAuth();
+            },
+            2200
+          );
 
-          submit.disabled = false;
 
         }
+
+
+        /* ==========================
+           CONNEXION
+           ========================== */
+
+        else {
+
+          const {
+            error
+          } =
+            await supabaseClient.auth
+              .signInWithPassword({
+                email: email,
+                password: password
+              });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          showMessage(
+            "Connexion réussie."
+          );
+
+
+          setTimeout(
+            async function() {
+
+              closeAuth();
+
+              await loadClientSpace();
+
+            },
+            700
+          );
+
+        }
+
 
       }
-    );
 
+      catch (error) {
 
-  /* =========================================
-     ESPACE CLIENT
-     ========================================= */
+        console.error(error);
 
-  async function loadClientSpace() {
-
-    const {
-      data: {
-        session
-      }
-    } =
-      await supabaseClient.auth
-        .getSession();
-
-
-    if (!session) {
-      return;
-    }
-
-
-    const user =
-      session.user;
-
-
-    document
-      .getElementById("publicSite")
-      .style.display = "none";
-
-
-    document
-      .getElementById("clientSpace")
-      .style.display = "block";
-
-
-    document
-      .getElementById("clientEmail")
-      .textContent =
-      user.email || "—";
-
-
-    const {
-      data: profile
-    } =
-      await supabaseClient
-        .from("profiles")
-        .select(
-          "full_name, phone"
-        )
-        .eq(
-          "id",
-          user.id
-        )
-        .maybeSingle();
-
-
-    if (profile) {
-
-      document
-        .getElementById("clientName")
-        .textContent =
-        profile.full_name || "—";
-
-
-      document
-        .getElementById("clientPhone")
-        .textContent =
-        profile.phone || "—";
-
-
-      document
-        .getElementById("welcomeText")
-        .textContent =
-        "Bienvenue, " +
-        (
-          profile.full_name ||
-          "client"
-        ) +
-        ".";
-
-    }
-
-  }
-
-
-  /* =========================================
-     DÉCONNEXION
-     ========================================= */
-
-  async function logoutUser() {
-
-    const {
-      error
-    } =
-      await supabaseClient.auth
-        .signOut();
-
-
-    if (error) {
-
-      console.error(error);
-
-      return;
-
-    }
-
-
-    document
-      .getElementById("clientSpace")
-      .style.display = "none";
-
-
-    document
-      .getElementById("publicSite")
-      .style.display = "block";
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  /* =========================================
-     SURVEILLANCE SESSION
-     ========================================= */
-
-  supabaseClient.auth
-    .onAuthStateChange(
-      async function(event, session) {
-
-        if (
-          event === "SIGNED_IN" &&
-          session
-        ) {
-
-          await loadClientSpace();
-
-        }
-
-
-        if (
-          event === "SIGNED_OUT"
-        ) {
-
-          document
-            .getElementById("clientSpace")
-            .style.display = "none";
-
-
-          document
-            .getElementById("publicSite")
-            .style.display = "block";
-
-        }
+        showMessage(
+          error.message ||
+          "Une erreur est survenue."
+        );
 
       }
-    );
 
+      finally {
 
-  /* =========================================
-     FERMETURE DU MODAL
-     ========================================= */
-
-  document
-    .getElementById("authModal")
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (
-          event.target === this
-        ) {
-
-          closeAuth();
-
-        }
-
-      }
-    );
-
-
-  /* =========================================
-     VÉRIFICATION SESSION AU CHARGEMENT
-     ========================================= */
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    async function() {
-
-      const {
-        data: {
-          session
-        }
-      } =
-        await supabaseClient.auth
-          .getSession();
-
-
-      if (session) {
-
-        await loadClientSpace();
+        submit.disabled = false;
 
       }
 
     }
   );
 
-</script>
 
-</body>
-  </html>
+/* ========================================
+   CHARGER ESPACE CLIENT
+   ======================================== */
+
+async function loadClientSpace() {
+
+  const {
+    data: {
+      session
+    }
+  } =
+    await supabaseClient.auth
+      .getSession();
+
+
+  if (!session) {
+    return;
+  }
+
+
+  const user =
+    session.user;
+
+
+  document
+    .getElementById("publicSite")
+    .style.display = "none";
+
+
+  document
+    .getElementById("clientSpace")
+    .style.display = "block";
+
+
+  /*
+   * Email
+   */
+
+  document
+    .getElementById("clientEmail")
+    .textContent =
+    user.email || "—";
+
+
+  /*
+   * Chargement parallèle
+   */
+
+  await Promise.all([
+    loadProfile(user.id),
+    loadAccount(user.id)
+  ]);
+
+}
+
+
+/* ========================================
+   PROFIL
+   ======================================== */
+
+async function loadProfile(userId) {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "full_name, phone"
+      )
+      .eq(
+        "id",
+        userId
+      )
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Erreur profil :",
+      error
+    );
+
+    return;
+
+  }
+
+
+  if (!data) {
+    return;
+  }
+
+
+  document
+    .getElementById("clientName")
+    .textContent =
+    data.full_name || "—";
+
+
+  document
+    .getElementById("clientPhone")
+    .textContent =
+    data.phone || "—";
+
+
+  document
+    .getElementById("welcomeText")
+    .textContent =
+    "Bienvenue, " +
+    (
+      data.full_name ||
+      "client"
+    ) +
+    ".";
+
+}
+
+
+/* ========================================
+   COMPTE
+   ======================================== */
+
+async function loadAccount(userId) {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("accounts")
+      .select(
+        "id, account_number, account_type, currency, balance, status"
+      )
+      .eq(
+        "user_id",
+        userId
+      )
+      .order(
+        "created_at",
+        {
+          ascending: true
+        }
+      )
+      .limit(1)
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Erreur compte :",
+      error
+    );
+
+    return;
+
+  }
+
+
+  if (!data) {
+
+    document
+      .getElementById("clientBalance")
+      .textContent =
+      "0,00 €";
+
+
+    document
+      .getElementById("clientAccountNumber")
+      .textContent =
+      "Aucun compte associé";
+
+
+    await showNoCard();
+
+    showNoTransactions();
+
+    return;
+
+  }
+
+
+  /*
+   * Solde réel venant de Supabase.
+   */
+
+  document
+    .getElementById("clientBalance")
+    .textContent =
+    formatCurrency(
+      data.balance,
+      data.currency
+    );
+
+
+  /*
+   * Numéro du compte.
+   */
+
+  document
+    .getElementById("clientAccountNumber")
+    .textContent =
+    data.account_number ||
+    "Compte bancaire";
+
+
+  /*
+   * Statut.
+   */
+
+  document
+    .getElementById("clientAccountStatus")
+    .textContent =
+    "Statut : " +
+    formatStatus(
+      data.status
+    );
+
+
+  /*
+   * Carte + transactions.
+   */
+
+  await Promise.all([
+    loadCard(data.id),
+    loadTransactions(data.id)
+  ]);
+
+}
+
+
+/* ========================================
+   CARTE
+   ======================================== */
+
+async function loadCard(accountId) {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("cards")
+      .select(
+        "card_last4, card_type, status"
+      )
+      .eq(
+        "account_id",
+        accountId
+      )
+      .order(
+        "created_at",
+        {
+          ascending: true
+        }
+      )
+      .limit(1)
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "Erreur carte :",
+      error
+    );
+
+    return;
+
+  }
+
+
+  const container =
+    document.getElementById(
+      "cardInformation"
+    );
+
+
+  if (!data) {
+
+    await showNoCard();
+
+    return;
+
+  }
+
+
+  const type =
+    data.card_type === "virtual"
+      ? "Carte virtuelle"
+      : "Carte de débit";
+
+
+  container.innerHTML = `
+
+    <div class="operation">
+
+      <div>
+        <strong>
+          ${type}
+        </strong>
+
+        <small>
+          •••• ${escapeHtml(data.card_last4 || "----")}
+        </small>
+      </div>
+
+      <strong>
+        ${escapeHtml(
+          formatStatus(data.status)
+        )}
+      </strong>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ========================================
+   TRANSACTIONS
+   ======================================== */
+
+async function loadTransactions(accountId) {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("transactions")
+      .select(
+        "transaction_type, amount, currency, description, status, created_at"
+      )
+      .eq(
+        "account_id",
+        accountId
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      )
+      .limit(10);
+
+
+  if (error) {
+
+    console.error(
+      "Erreur transactions :",
+      error
+    );
+
+    return;
+
+  }
+
+
+  const container =
+    document.getElementById(
+      "operationsList"
+    );
+
+
+  if (!data || data.length === 0) {
+
+    showNoTransactions();
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(
+    function(transaction) {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "operation";
+
+
+      const type =
+        formatTransactionType(
+          transaction.transaction_type
+        );
+
+
+      const amount =
+        formatTransactionAmount(
+          transaction.transaction_type,
+          transaction.amount,
+          transaction.currency
+        );
+
+
+      const description =
+        transaction.description ||
+        type;
+
+
+      item.innerHTML = `
+
+        <div>
+
+          <strong>
+            ${escapeHtml(description)}
+          </strong>
+
+          <small>
+            ${escapeHtml(
+              formatDate(
+                transaction.created_at
+              )
+            )}
+            ·
+            ${escapeHtml(
+              formatStatus(
+                transaction.status
+              )
+            )}
+          </small>
+
+        </div>
+
+        <strong>
+          ${escapeHtml(amount)}
+        </strong>
+
+      `;
+
+
+      container.appendChild(item);
+
+    }
+  );
+
+}
+
+
+/* ========================================
+   AUCUNE CARTE
+   ======================================== */
+
+async function showNoCard() {
+
+  const container =
+    document.getElementById(
+      "cardInformation"
+    );
+
+
+  container.innerHTML = `
+
+    <div class="empty-operation">
+      Aucune carte associée à ce compte.
+    </div>
+
+  `;
+
+}
+
+
+/* ========================================
+   AUCUNE TRANSACTION
+   ======================================== */
+
+function showNoTransactions() {
+
+  const container =
+    document.getElementById(
+      "operationsList"
+    );
+
+
+  container.innerHTML = `
+
+    <div class="empty-operation">
+      Aucune opération disponible.
+    </div>
+
+  `;
+
+}
+
+
+/* ========================================
+   FORMAT MONNAIE
+   ======================================== */
+
+function formatCurrency(
+  value,
+  currency = "EUR"
+) {
+
+  const number =
+    Number(value || 0);
+
+
+  return new Intl.NumberFormat(
+    "fr-FR",
+    {
+      style: "currency",
+      currency: currency
+    }
+  ).format(number);
+
+}
+
+
+/* ========================================
+   FORMAT TRANSACTION
+   ======================================== */
+
+function formatTransactionAmount(
+  type,
+  amount,
+  currency
+) {
+
+  const number =
+    Number(amount || 0);
+
+
+  const formatted =
+    new Intl.NumberFormat(
+      "fr-FR",
+      {
+        style: "currency",
+        currency: currency || "EUR"
+      }
+    ).format(number);
+
+
+  const incoming =
+    type === "deposit" ||
+    type === "transfer_in";
+
+
+  return incoming
+    ? "+" + formatted
+    : "-" + formatted;
+
+}
+
+
+/* ========================================
+   TYPE TRANSACTION
+   ======================================== */
+
+function formatTransactionType(type) {
+
+  const labels = {
+
+    deposit: "Dépôt",
+
+    withdrawal: "Retrait",
+
+    transfer_in: "Virement reçu",
+
+    transfer_out: "Virement envoyé",
+
+    payment: "Paiement"
+
+  };
+
+
+  return labels[type] ||
+    "Op
